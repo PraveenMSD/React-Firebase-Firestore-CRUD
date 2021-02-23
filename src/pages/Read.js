@@ -39,7 +39,7 @@ const Read = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mt-4">
       <h1>Read</h1>
       {text.map((game) => {
         const remove = (e) => {
@@ -59,9 +59,9 @@ const Read = () => {
         return (
           <p key={game.id}>
             Title: {game.title} - Console: {game.console}
-            <button onClick={(e) => remove(e)}>Delete</button>
+            <button className="btn btn-danger" onClick={(e) => remove(e)}>Delete</button>
             <Link to={`/update/${game.id}`}>
-              <button>Update</button>
+              <button className="btn btn-info">Update</button>
             </Link>
           </p>
         );

@@ -21,8 +21,9 @@ const Create = () => {
     <div>
       <h1>Create</h1>
       <form onSubmit={update}>
-        <div>
+        <div className="inputTitle col-lg-5 col-lg-offset-5 mt-4">
           <input
+            className="form-control"
             type="text"
             placeholder="Title"
             required
@@ -30,8 +31,9 @@ const Create = () => {
             onChange={(e) => setText({ ...text, title: e.target.value })}
           ></input>
         </div>
-        <div>
+        <div className="inputTitle col-lg-5 col-lg-offset-5 mt-2">
           <input
+            className="form-control"
             type="text"
             placeholder="Console"
             required
@@ -40,7 +42,7 @@ const Create = () => {
           ></input>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-success mt-2">Submit</button>
       </form>
       <Read />
     </div>
