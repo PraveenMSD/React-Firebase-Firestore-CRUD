@@ -7,6 +7,10 @@ const Update = (props) => {
   const { id } = props.match.params;
 
   useEffect(() => {
+    getGamestoUpdate();
+  }, [])
+  
+  const getGamestoUpdate = () => {
     const arr = [];
     firestore
       .collection("games")
@@ -14,16 +18,17 @@ const Update = (props) => {
       .get()
       .then((doc) => {
         arr.push({ id: doc.id, ...doc.data() });
-        setText(...text, ...arr);
-      });
-  }, []);
+        setText(...text, ...arr)
+      })
+  }
+
 
   const updateFields = (e) => {
     e.preventDefault();
     firestore
       .collection("games")
       .doc(id)
-      .set({ title: text.title, console: text.console });
+      .set({ title: text.title, description: text.description });
 
     // Redirects back to the home page
     props.history.push("/");
@@ -35,8 +40,9 @@ const Update = (props) => {
     <div>
       <h1>Update</h1>
       <form onSubmit={updateFields}>
-        <div>
+        <div className="inputTitle col-lg-5 col-lg-offset-5 mt-4">
           <input
+            className="form-control"
             type="text"
             placeholder="Title"
             required
@@ -44,17 +50,18 @@ const Update = (props) => {
             onChange={(e) => setText({ ...text, title: e.target.value })}
           ></input>
         </div>
-        <div>
+        <div className="inputTitle col-lg-5 col-lg-offset-5 mt-4">
           <input
+            className="form-control"
             type="text"
-            placeholder="Console"
+            placeholder="console"
             required
-            value={text.console || ""}
-            onChange={(e) => setText({ ...text, console: e.target.value })}
+            value={text.description || ""}
+            onChange={(e) => setText({ ...text, description: e.target.value })}
           ></input>
         </div>
 
-        <button type="submit">Update</button>
+        <button type="submit" className="btn btn-success mt-2">Update</button>
       </form>
     </div>
   );

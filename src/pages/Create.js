@@ -3,9 +3,10 @@ import { firestore } from "../config/Config";
 import Read from "./Read";
 
 const Create = () => {
+  // text is state, setText is used to alter the text state
   const [text, setText] = useState({
     title: "",
-    console: "",
+    description: "",
   });
 
   const update = (e) => {
@@ -13,9 +14,10 @@ const Create = () => {
     firestore.collection("games").add({
       ...text,
       title: text.title,
-      console: text.console,
+      description: text.description,
     });
   };
+
 
   return (
     <div>
@@ -35,10 +37,10 @@ const Create = () => {
           <input
             className="form-control"
             type="text"
-            placeholder="Console"
+            placeholder="console"
             required
-            value={text.console}
-            onChange={(e) => setText({ ...text, console: e.target.value })}
+            value={text.description}
+            onChange={(e) => setText({ ...text, description: e.target.value })}
           ></input>
         </div>
 

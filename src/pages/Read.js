@@ -5,39 +5,31 @@ import { Link } from "react-router-dom";
 const Read = () => {
   const [text, setText] = useState([]);
 
-  // Get all data once
-  // useEffect(() => {
-  //   const bla = [];
-  //   firestore
-  //     .collection("games")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         bla.push({ ...doc.data(), id: doc.id });
-  //       });
-  //       setText([...text, ...bla]);
-  //     });
-  // }, []);
+  useEffect(() => {
+    getGames()
+  }, [])
 
   // Get data with realtime updates
-  useEffect(() => {
-    const bla = [];
-    firestore.collection("games").onSnapshot((snap) => {
-      let changes = snap.docChanges();
+  const getGames = () => {
+    const blank = [];
+    firestore.collection("games").onSnapshot((querySnapshot) => {
+      let changes = querySnapshot.docChanges();
       changes.forEach((change) => {
         if (change.type === "added") {
-          bla.push({ id: change.doc.id, ...change.doc.data() });
+          blank.push({ id: change.doc.id, ...change.doc.data() })
         } else {
-          return text;
+          return text
         }
-      });
-      setText([...text, ...bla]);
-    });
+      })
+      setText([...text, ...blank]);
+    })
     return () => {
-      setText([...text, ...bla]);
-    };
-  }, []);
+      setText([...text, ...blank])
+    }
+  }
 
+  console.log(text)
+  
   return (
     <div className="mt-4">
       <h1>Read</h1>
@@ -58,11 +50,20 @@ const Read = () => {
 
         return (
           <p key={game.id}>
-            Title: {game.title} - Console: {game.console}
-            <button className="btn btn-danger" onClick={(e) => remove(e)}>Delete</button>
-            <Link to={`/update/${game.id}`}>
-              <button className="btn btn-info">Update</button>
-            </Link>
+            <div className="row">
+            <div className="col-md-5">
+            <div className="card" style={{width: "18rem"}}>
+              <div className="card-body">
+                <h5 className="card-title">{game.title}</h5>
+                <p className="card-text">{game.description}</p>
+                <Link to={`/update/${game.id}`}>
+                  <button className="btn btn-info">Edit</button>
+                </Link> &nbsp;&nbsp;&nbsp;
+                <button className="btn btn-danger" onClick={(e) => remove(e)}>Delete</button>
+              </div>
+            </div>
+            </div>
+            </div>
           </p>
         );
       })}
